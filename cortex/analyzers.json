@@ -1,0 +1,14 @@
+{
+  "analyzers": [
+    {
+      "name": "VirusTotal_Analyzer",
+      "type": "file",
+      "enabled": true
+    },
+    {
+      "name": "AbuseIPDB_Analyzer",
+      "type": "ip",
+      "enabled": true
+    }
+  ]
+}
