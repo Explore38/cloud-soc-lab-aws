@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  misp-db:
+    image: mariadb:10.6
+    container_name: misp-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=misp
+      - MYSQL_DATABASE=misp
+      - MYSQL_USER=misp
+      - MYSQL_PASSWORD=misp
+    volumes:
+      - misp_db_data:/var/lib/mysql
+    networks:
+      - soc-net
+
+  misp-redis:
+    image: redis:latest
+    container_name: misp-redis
+    networks:
+      - soc-net
+
+  misp:
+    image: harvarditsecurity/misp:latest
+    container_name: misp
+    depends_on:
+      - misp-db
+      - misp-redis
+    ports:
+      - "8080:80"
+    environment:
+      - MISP_BASEURL=http://localhost
+      - MISP_DB_HOST=misp-db
+      - MISP_REDIS_HOST=misp-redis
+    volumes:
+      - misp_app_data:/var/www/MISP
+    networks:
+      - soc-net
+
+volumes:
+  misp_db_data:
+  misp_app_data:
+
+networks:
+  soc-net:
+    driver: bridge
