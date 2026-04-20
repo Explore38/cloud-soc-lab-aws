@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  snort:
+    image: linuxserver/snort
+    container_name: snort
+    network_mode: host
+    volumes:
+      - ./snort.conf:/etc/snort/snort.conf
+      - ./rules:/etc/snort/rules
+      - snort_logs:/var/log/snort
+    command: >
+      -i eth0
+      -c /etc/snort/snort.conf
+      -A console
+    restart: unless-stopped
+
+volumes:
+  snort_logs:
