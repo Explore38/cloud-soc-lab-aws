@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  cortex:
+    image: thehiveproject/cortex:latest
+    container_name: cortex
+    ports:
+      - "9001:9001"
+    environment:
+      - JOB_DIRECTORY=/var/lib/cortex/jobs
+      - CONFIG_DIRECTORY=/etc/cortex
+    volumes:
+      - cortex_data:/var/lib/cortex
+      - cortex_config:/etc/cortex
+    networks:
+      - soc-net
+
+volumes:
+  cortex_data:
+  cortex_config:
+
+networks:
+  soc-net:
+    driver: bridge
